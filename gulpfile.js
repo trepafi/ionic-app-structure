@@ -10,7 +10,7 @@ var args = require('yargs')
   .argv;
 
 var options = {
-  appName: 'wegetpop',
+  appName: 'lubertapp',
 
   src: 'app',
   assets: 'app/assets',
@@ -41,7 +41,7 @@ var options = {
     onPathInjected: function(fileObject) {
       // console.log(':: FILE', fileObject);
       var ff = fileObject.path.indexOf('fieldmargin-frontend');
-      console.log(ff !== -1);
+      // console.log(ff !== -1);
     }
   }
 };

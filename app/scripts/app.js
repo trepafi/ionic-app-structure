@@ -26,17 +26,14 @@ function LubertAppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
       url: '/results',
       views: {
         'viewContent': {
-          templateUrl: 'templates/components/results/results.html',
-          controller: 'ResultsCtrl'
+          templateUrl: 'templates/components/results/results.html'
+          // controller: 'ResultsCtrl'
         }
-      },
-      data: {
-        requireLogin: true
       }
     });
 
   // redirects to default route for undefined routes
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/results');
 
 }
 
