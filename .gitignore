@@ -5,6 +5,7 @@ node_modules/
 platforms/
 plugins/
 scss/
+hooks/
 bower_components/
 
 .tmp/
