@@ -26,8 +26,8 @@ function LubertAppConfig($httpProvider, $stateProvider, $urlRouterProvider) {
       url: '/results',
       views: {
         'viewContent': {
-          templateUrl: 'templates/components/results/results.html'
-          // controller: 'ResultsCtrl'
+          templateUrl: 'templates/components/results/results.html',
+          controller: 'ResultsCtrl'
         }
       }
     });

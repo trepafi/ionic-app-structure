@@ -1,0 +1,13 @@
+ion-modal-view
+  ion-header-bar.bar-positive(align-title="center")
+    button.button.button-clear.button-icon.icon.ion-ios-arrow-back(ng-click="filterModal.hide()") &nbsp;Back
+    h1.title Filtering
+
+  ion-content(has-header="true" padding="true")
+    form(name="filterForm" novalidate)
+      .list.card
+        label.item.item-input.item-floating-label
+          span.input-label Age
+        .item
+          button.button.button-block.button-positive(ng-click="filter()") Apply filter
+        
