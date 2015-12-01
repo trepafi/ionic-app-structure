@@ -6,9 +6,12 @@ ion-header-bar.bar-positive(align-title="center")
 ion-content
   div(ng-show="state === 'list'")
     ion-list
+      ion-item.item-divider ({{ artists.length }}) artist
       ion-item(ng-repeat="artist in artists") 
-        b {{ $index + 1}}&nbsp;
-        span {{ artist.uuid }}
+        b {{ $index + 1}}.&nbsp;
+        i.icon.ion-male.male-color(ng-if=" artist.gender === 'M' ")
+        i.icon.ion-female.female-color(ng-if=" artist.gender === 'F' ")
+        span &nbsp;{{ artist.age }} years
   div(ng-show="state === 'map'") Mapa
     
   
