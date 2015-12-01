@@ -5,9 +5,57 @@ ion-modal-view
 
   ion-content(has-header="true" padding="true")
     form(name="filterForm" novalidate)
-      .list.card
-        label.item.item-input.item-floating-label
-          span.input-label Age
+      .list
+        .item.item-divider Gender
+        .item.item-checkbox
+          label.checkbox
+            input(type="checkbox" name="male-filter" ng-model="filters.gender.male")
+          | Male
+        .item.item-checkbox
+          label.checkbox
+            input(type="checkbox" name="female-filter" ng-model="filters.gender.female")
+          | Female
+        
+        .item.item-divider Ratings
+        label.item.item-input
+          span.input-label Min
+          input(type="text" placeholder="Minimum rating" min="ratingRange.min" max="filters.rating.max" ng-model="filters.rating.min")
+        label.item.item-input
+          span.input-label Max
+          input(type="text" placeholder="Maximum rating" min="filters.rating.min" max="ratingRange.max" ng-model="filters.rating.max")
+    
+        .item.item-divider Ratings
+        label.item.item-input
+          span.input-label Min
+          input(type="text" placeholder="Minimum age" min="ageRange.min" max="filters.age.max" ng-model="filters.age.min")
+        label.item.item-input
+          span.input-label Max
+          input(type="text" placeholder="Maximum age" min="filters.age.min" max="ageRange.max" ng-model="filters.age.max")
+            
         .item
           button.button.button-block.button-positive(ng-click="filter()") Apply filter
-        
+      
+      //- TODO: Re-add range for min and max rating
+      //-   ion-item 
+      //-     span Gender
+      //-     ul.list
+      //-       .item.item-checkbox
+      //-         label.checkbox
+      //-           input(type="checkbox" name="male-filter" ng-model="gender.male")
+      //-         | Male
+      //-       .item.item-checkbox
+      //-         label.checkbox
+      //-           input(type="checkbox" name="female-filter" ng-model="gender.female")
+      //-         | Female
+      //-         
+      //-   ion-item 
+      //-     span Rating
+      //-     ul.list
+      //-       .item.range.range-positive
+      //-         input(type="range" name="rating-min-filter" ng-model="filters.rating.min" min=)
+      //-       .item.range.range-positive
+      //-         input(type="range" name="rating-max-filter" ng-model="filters.rating.max")
+      //-     
+      //-   .item
+      //-     button.button.button-block.button-positive(ng-click="filter()") Apply filter
+      //-   

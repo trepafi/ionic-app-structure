@@ -15,3 +15,15 @@ function artistsSvc($q, artistsDS) {
     getAll: getAll
   }
 }
+
+
+function Artist(data) {
+  this._construct(data);
+}
+
+Artist.prototype._construct = function(data) {
+  var self = this;
+  _.each(data, function(item, key) {
+    self[key] = item;
+  });
+};

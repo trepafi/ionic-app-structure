@@ -13,6 +13,35 @@ angular.module('lubertapp')
     $scope.artists = [];
     $scope.setState = setState;
     $scope.showFilter = showFilter;
+
+    var ratingRange = {
+      min: 0,
+      max: 100
+    };
+
+    var ageRange = {
+      min: 16,
+      max: 74
+    }
+
+    $scope.ratingRange = ratingRange;
+    $scope.ageRange = ageRange;
+    $scope.filters = {
+      gender: {
+        male: true,
+        female: true
+      },
+      rating: {
+        min: ratingRange.min,
+        max: ratingRange.max
+      },
+      age: {
+        min: ageRange.min,
+        max: ageRange.max
+      }
+    }
+
+
     init();
 
     $scope.$watch('state', function(value) {
@@ -27,7 +56,8 @@ angular.module('lubertapp')
 
       $ionicModal.fromTemplateUrl('templates/components/results/filter.html', {
         scope: $scope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        controller: 'FilterCtrl'
       }).then(function(modal) {
         $scope.filterModal = modal;
       });
