@@ -13,7 +13,7 @@ angular.module('lubertapp')
     init();
 
     function resetVars() {
-      $scope.state = 'map';
+      $scope.state = 'list';
       $scope.artists = [];
       $scope.setState = setState;
       $scope.showFilter = showFilter;
