@@ -24,7 +24,7 @@ angular.module('lubertapp')
     $scope.ageRange = ageRange;
     resetFilters();
 
-    $scope.state = 'list';
+    $scope.state = 'map';
     $scope.artists = [];
 
     $scope.artistsList = [];
@@ -89,7 +89,7 @@ angular.module('lubertapp')
     }
 
     function updateMapMarkers() {
-      console.log('update map markers');
+      // console.log('update map markers');
       events.$emit(events.map.REMOVE_ALL_MARKERS);
       _.each($scope.artists, function(artist) {
         // console.log(artist);
@@ -99,9 +99,6 @@ angular.module('lubertapp')
       $timeout(function() {
         events.$emit(events.map.FIT_BOUNDS);
       }, 300);
-
-
-
     }
 
     function resetArtistsList() {
@@ -134,7 +131,7 @@ angular.module('lubertapp')
     function loadMoreItems() {
       artistsListLimit += 10;
       $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
-      console.log('loading more', $scope.artistsList.length);
+      // console.log('loading more', $scope.artistsList.length);
 
       if ( $scope.artistsList.length === $scope.artists.length ) {
         $scope.noMoreItemsAvailable = true;

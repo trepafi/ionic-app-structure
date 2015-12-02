@@ -17,6 +17,7 @@ function ltMapDirective(){
   function mapCtrl($scope, $timeout, $q, events, leafletData) {
     $scope.map;
     $scope.markers = [];
+
     $scope.defaults = {
       center: {
         lat: 51.5126064,
@@ -25,26 +26,34 @@ function ltMapDirective(){
       }
     };
 
+    resetClusterGroup();
+
     isMapReady().then(function(map) {
       events.$on(events.map.REMOVE_ALL_MARKERS, function(ev) {
         console.log('removing all markers');
         if($scope.markers.length > 0) {
-          _.each($scope.markers, function(marker) {
-            // console.log(marker);
-            $scope.map.removeLayer(marker);
-          });
+          // _.each($scope.markers, function(marker) {
+          //   // console.log(marker);
+          //   $scope.map.removeLayer(marker);
+          // });
+
+          resetClusterGroup();
           $scope.markers = [];
         }
       });
 
       events.$on(events.map.ADD_MARKER, function(ev, markerData) {
+        console.log('adding marker');
         var location = {
           lat: markerData.latitude,
           lng: markerData.longitude
         }
-        var marker = L.marker(location);
-        marker.addTo($scope.map);
-        $scope.markers.push(marker);
+        $timeout(function() {
+          var marker = L.marker(location);
+          // marker.addTo($scope.map);
+          $scope.markers.push(marker);
+          $scope.markerClusterGroup.addLayer(marker);
+        });
       });
 
       events.$on(events.map.FIT_BOUNDS, function(ev) {
@@ -69,6 +78,21 @@ function ltMapDirective(){
         deferred.resolve($scope.map);
       }
       return deferred.promise;
+    }
+
+    function resetClusterGroup() {
+      isMapReady().then(function() {
+        if($scope.markerClusterGroup) {
+          $scope.map.removeLayer($scope.markerClusterGroup);
+        }
+        $scope.markerClusterGroup = L.markerClusterGroup({
+          animateAddingMarkers: true,
+          spiderfyOnMaxZoom: true,
+          showCoverageOnHover: true,
+          zoomToBoundsOnClick: true
+        });
+        $scope.map.addLayer($scope.markerClusterGroup);
+      });
     }
 
   }
