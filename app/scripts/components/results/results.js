@@ -7,7 +7,7 @@
  * # Main Controller
  */
 angular.module('lubertapp')
-  .controller('ResultsCtrl', function($scope, $ionicModal, $ionicScrollDelegate, artistsSvc) {
+  .controller('ResultsCtrl', function($scope, $timeout, $ionicModal, $ionicScrollDelegate, events, artistsSvc) {
     // console.log(artistsSvc.getAll());
     var artistsListLimit = 20;
     var ratingRange = {
@@ -40,6 +40,9 @@ angular.module('lubertapp')
     artistsSvc.getAll().then(function(response) {
       $scope.artists = response;
       resetArtistsList();
+      $timeout(function() {
+        updateMapMarkers();
+      });
       // console.log($scope.artistsList);
     });
 
@@ -85,6 +88,22 @@ angular.module('lubertapp')
       }
     }
 
+    function updateMapMarkers() {
+      console.log('update map markers');
+      events.$emit(events.map.REMOVE_ALL_MARKERS);
+      _.each($scope.artists, function(artist) {
+        // console.log(artist);
+        events.$emit(events.map.ADD_MARKER, artist);
+      });
+
+      $timeout(function() {
+        events.$emit(events.map.FIT_BOUNDS);
+      }, 300);
+
+
+
+    }
+
     function resetArtistsList() {
       $scope.noMoreItemsAvailable = false;
       artistsListLimit = 10;
@@ -108,6 +127,7 @@ angular.module('lubertapp')
         // console.log(response);
         $scope.artists = response;
         resetArtistsList();
+        updateMapMarkers();
       });
     }
 

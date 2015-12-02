@@ -15,7 +15,7 @@ ion-content
     
     ion-infinite-scroll(ng-if="!noMoreItemsAvailable" on-infinite="loadMore()")
 
-.height-100.map-container(ng-if="state === 'map'")
+.height-100.map-container(ng-show="state === 'map'")
   lt-map
 
 .tabs.tabs-icon-top
