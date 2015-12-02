@@ -40,6 +40,7 @@ For production
 The app has a build process that prepares the dev and production environments.
 
 **DEV**
+
 For the `dev` environment the task runners does:
 - Runs the `jade` and `stylus` preprocessors for creating the `htmls` and `css` files respectively
 - Combines all the `html` files into a single `js` file generating the templates for angular
@@ -47,6 +48,7 @@ For the `dev` environment the task runners does:
 - Executes a server at [the port 3000 on localhost](http://localhost:3000)
 
 **PROD**
+
 Rather than the tasks executed for the `dev` environment, the task runner, for the `prod` environment does:
 - Copies all the required files to the `www` folder necessary to execute an ionic application
 - Minifies all the files
@@ -92,13 +94,17 @@ The app has three tabs to display in different ways the data provided in the `ar
 ## Screenshots
 
 **List**
+
 ![list screenshot](resources/screenshots/01list.png)
 
 **Map**
+
 ![map screenshot](resources/screenshots/02map.png)
 
 **Graphs**
+
 ![graphs screenshot](resources/screenshots/03d3.png)
 
 **Filters**
+
 ![filters screenshot](resources/screenshots/04filters.png)
