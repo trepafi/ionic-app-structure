@@ -24,7 +24,7 @@ ion-modal-view
           span.input-label Max
           input(type="text" placeholder="Maximum rating" min="filters.rating.min" max="ratingRange.max" ng-model="filters.rating.max")
     
-        .item.item-divider Ratings
+        .item.item-divider Age
         label.item.item-input
           span.input-label Min
           input(type="text" placeholder="Minimum age" min="ageRange.min" max="filters.age.max" ng-model="filters.age.min")
@@ -33,7 +33,7 @@ ion-modal-view
           input(type="text" placeholder="Maximum age" min="filters.age.min" max="ageRange.max" ng-model="filters.age.max")
             
         .item
-          button.button.button-block.button-positive(ng-click="filter()") Apply filter
+          button.button.button-block.button-positive(ng-click="applyFilters()") Apply filter
       
       //- TODO: Re-add range for min and max rating
       //-   ion-item 

@@ -7,7 +7,7 @@ angular.module('lubertapp')
 function artistsSvc($q, artistsDS) {
   function getAll() {
     var deferred = $q.defer();
-    deferred.resolve(artistsDS);
+    deferred.resolve(artistsDS.getAll());
     return deferred.promise;
   }
 
@@ -15,15 +15,3 @@ function artistsSvc($q, artistsDS) {
     getAll: getAll
   }
 }
-
-
-function Artist(data) {
-  this._construct(data);
-}
-
-Artist.prototype._construct = function(data) {
-  var self = this;
-  _.each(data, function(item, key) {
-    self[key] = item;
-  });
-};
