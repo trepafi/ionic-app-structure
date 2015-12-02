@@ -9,7 +9,7 @@
  * Main module of the application.
  */
 
-angular.module('lubertapp', ['ionic', 'ngCordova', 'ngResource', 'ngMessages', 'ngAnimate'])
+angular.module('lubertapp', ['ionic', 'ngCordova', 'ngResource', 'ngMessages', 'ngAnimate', 'leaflet-directive'])
   .config(LubertAppConfig)
   .run(LubertAppRun);
 
