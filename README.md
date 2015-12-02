@@ -65,7 +65,7 @@ The app has three tabs to display in different ways the data provided in the `ar
 **List**
 - Shows the data as a list
 - The first 10 records are shown at the beginning
-- Scrolling down allow to load more data because of an infinite scroll
+- Includes an infinite scroll which makes the list as short as the user needs
 - The list is updated after filtering
 
 **Map**
