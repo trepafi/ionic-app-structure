@@ -86,8 +86,10 @@ angular.module('lubertapp')
     }
 
     function resetArtistsList() {
+      $scope.noMoreItemsAvailable = false;
       artistsListLimit = 10;
       $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
+      console.log($scope.artists.length, $scope.artistsList.length)
       $ionicScrollDelegate.scrollTop();
     }
 
