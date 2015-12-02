@@ -24,7 +24,7 @@ angular.module('lubertapp')
     $scope.ageRange = ageRange;
     resetFilters();
 
-    $scope.state = 'graphs';
+    $scope.state = 'map';
     $scope.artists = [];
 
     $scope.artistsList = [];
@@ -98,10 +98,7 @@ angular.module('lubertapp')
 
     function setState(state) {
       $scope.state = state;
-
-      if(state === 'graphs') {
-        getGraphData();
-      }
+      prepareDataForTabs()
      };
 
     function showFilter() {
@@ -169,9 +166,9 @@ angular.module('lubertapp')
         events.$emit(events.map.ADD_MARKER, artist);
       });
 
-      $timeout(function() {
-        events.$emit(events.map.FIT_BOUNDS);
-      }, 300);
+      // $timeout(function() {
+      //   events.$emit(events.map.FIT_BOUNDS);
+      // }, 300);
     }
 
     function getGraphData() {
@@ -200,9 +197,6 @@ angular.module('lubertapp')
           .value();
 
       // console.log(result);
-
       $scope.graphs.data = result;
-
-
     }
   });
