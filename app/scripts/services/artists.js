@@ -15,19 +15,22 @@ Artist.prototype._construct = function(data) {
   });
 };
 
-Artist.prototype.isAgeInRange = function(range) {
-  if(!this.age)
-    return false;
+Artist.prototype.isGenderInRange = function(range) {
+  if(!this.gender) return false;
 
-    // console.log(this.age >= parseInt(range.min) && this.age <= parseInt(range.max), this.age, parseInt(range.min), parseInt(range.max));
+  var genders = [];
+  if(range.male) genders.push('M');
+  if(range.female) genders.push('F');
+  return genders.indexOf(this.gender) !== -1;
+};
+
+Artist.prototype.isAgeInRange = function(range) {
+  if(!this.age) return false;
   return this.age >= parseInt(range.min) && this.age <= parseInt(range.max);
 };
 
 Artist.prototype.isRateInRange = function(range) {
-  if(!this.rate)
-    return false;
-
-  // console.log(this.rating >= range.min && this.rating <= range.max, this.rating, range.min, range.max);
+  if(!this.rate) return false;
   return this.rate >= parseFloat(range.min) && this.rate <= parseFloat(range.max);
 };
 
@@ -8031,7 +8034,7 @@ function artistsDSFactory() {
   _.each(artists, function(item) {
     response.push(new Artist(item));
   });
-  console.log('response', response);
+  // console.log('response', response);
 
   return {
     getAll: function() {

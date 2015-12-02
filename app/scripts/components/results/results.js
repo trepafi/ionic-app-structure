@@ -75,14 +75,14 @@ angular.module('lubertapp')
       artistsSvc.getAll().then(function(artists) {
         var response = _.filter(artists, function(artist) {
           var success = true;
+          success = success && artist.isGenderInRange($scope.filters.gender);
           success = success && artist.isAgeInRange($scope.filters.age);
           success = success && artist.isRateInRange($scope.filters.rating);
-          console.log(success);
+          // console.log(success);
           return success;
         });
 
-        console.log(response);
-
+        // console.log(response);
         $scope.artists = response;
       });
 
