@@ -30,7 +30,7 @@ function ltMapDirective(){
 
     isMapReady().then(function(map) {
       events.$on(events.map.REMOVE_ALL_MARKERS, function(ev) {
-        console.log('removing all markers');
+        // console.log('removing all markers');
         if($scope.markers.length > 0) {
           // _.each($scope.markers, function(marker) {
           //   // console.log(marker);
@@ -43,7 +43,7 @@ function ltMapDirective(){
       });
 
       events.$on(events.map.ADD_MARKER, function(ev, markerData) {
-        console.log('adding marker');
+        // console.log('adding marker');
         var location = {
           lat: markerData.latitude,
           lng: markerData.longitude

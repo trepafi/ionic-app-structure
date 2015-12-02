@@ -14,15 +14,22 @@ ion-content
         span &nbsp;{{ artist.rate }} rate
     
     ion-infinite-scroll(ng-if="!noMoreItemsAvailable" on-infinite="loadMore()")
+      
+  div(ng-if="state === 'graphs'")
+    nvd3(options="graphs.options" data="graphs.data")
 
 .height-100.map-container(ng-show="state === 'map'")
   lt-map
 
-.tabs.tabs-icon-top
-  a.tab-item(ng-click="setState('list')")
+.tabs.tabs-icon-top.tabs-striped.tabs-color-positive
+  a.tab-item(ng-click="setState('list')" ng-class="{ active: state === 'list'}")
     i.icon.ion-ios-list
     | List
   
-  a.tab-item(ng-click="setState('map')")
+  a.tab-item(ng-click="setState('map')" ng-class="{ active: state === 'map'}")
     i.icon.ion-ios-location
     | Map
+    
+  a.tab-item(ng-click="setState('graphs')" ng-class="{ active: state === 'graphs'}")
+    i.icon.ion-ios-pie
+    | Graphs

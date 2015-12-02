@@ -24,7 +24,7 @@ angular.module('lubertapp')
     $scope.ageRange = ageRange;
     resetFilters();
 
-    $scope.state = 'map';
+    $scope.state = 'graphs';
     $scope.artists = [];
 
     $scope.artistsList = [];
@@ -39,10 +39,7 @@ angular.module('lubertapp')
 
     artistsSvc.getAll().then(function(response) {
       $scope.artists = response;
-      resetArtistsList();
-      $timeout(function() {
-        updateMapMarkers();
-      });
+      prepareDataForTabs();
       // console.log($scope.artistsList);
     });
 
@@ -54,16 +51,57 @@ angular.module('lubertapp')
       $scope.filterModal = modal;
     });
 
+    // Graphs options
+    $scope.graphs = {
+      data: [],
+      options: {
+        chart: {
+          type: 'pieChart',
+          height: 500,
+          x: function(d){return d.age;},
+          y: function(d){return d.qty;},
+          showLabels: true,
+          duration: 500,
+          labelThreshold: 0.01,
+          labelSunbeamLayout: true,
+          legend: {
+            margin: {
+              top: 5,
+              right: 35,
+              bottom: 5,
+              left: 0
+            }
+          }
+        }
+      }
+    };
 
 
 
-
-
+    function prepareDataForTabs() {
+      switch ($scope.state) {
+        case 'list':
+          resetArtistsList();
+          break;
+        case 'map':
+          $timeout(function() {
+            updateMapMarkers();
+          });
+          break;
+        case 'graphs':
+          getGraphData();
+          break;
+      }
+    }
 
 
 
     function setState(state) {
       $scope.state = state;
+
+      if(state === 'graphs') {
+        getGraphData();
+      }
      };
 
     function showFilter() {
@@ -88,25 +126,15 @@ angular.module('lubertapp')
       }
     }
 
-    function updateMapMarkers() {
-      // console.log('update map markers');
-      events.$emit(events.map.REMOVE_ALL_MARKERS);
-      _.each($scope.artists, function(artist) {
-        // console.log(artist);
-        events.$emit(events.map.ADD_MARKER, artist);
-      });
-
-      $timeout(function() {
-        events.$emit(events.map.FIT_BOUNDS);
-      }, 300);
-    }
-
-    function resetArtistsList() {
-      $scope.noMoreItemsAvailable = false;
-      artistsListLimit = 10;
+    function loadMoreItems() {
+      artistsListLimit += 10;
       $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
-      console.log($scope.artists.length, $scope.artistsList.length)
-      $ionicScrollDelegate.scrollTop();
+      // console.log('loading more', $scope.artistsList.length);
+
+      if ( $scope.artistsList.length === $scope.artists.length ) {
+        $scope.noMoreItemsAvailable = true;
+      }
+      $scope.$broadcast('scroll.infiniteScrollComplete');
     }
 
     function applyFilters() {
@@ -123,19 +151,58 @@ angular.module('lubertapp')
 
         // console.log(response);
         $scope.artists = response;
-        resetArtistsList();
-        updateMapMarkers();
+        prepareDataForTabs();
       });
     }
 
-    function loadMoreItems() {
-      artistsListLimit += 10;
+    function resetArtistsList() {
+      $scope.noMoreItemsAvailable = false;
+      artistsListLimit = 10;
       $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
-      // console.log('loading more', $scope.artistsList.length);
+      // console.log($scope.artists.length, $scope.artistsList.length)
+      $ionicScrollDelegate.scrollTop();
+    }
 
-      if ( $scope.artistsList.length === $scope.artists.length ) {
-        $scope.noMoreItemsAvailable = true;
-      }
-      $scope.$broadcast('scroll.infiniteScrollComplete');
+    function updateMapMarkers() {
+      events.$emit(events.map.REMOVE_ALL_MARKERS);
+      _.each($scope.artists, function(artist) {
+        events.$emit(events.map.ADD_MARKER, artist);
+      });
+
+      $timeout(function() {
+        events.$emit(events.map.FIT_BOUNDS);
+      }, 300);
+    }
+
+    function getGraphData() {
+      var i = 1;
+      var result = _.chain($scope.artists)
+          .groupBy("age")
+          .pairs()
+          .map(function(item) {
+            return _.object(_.zip(["age", "qty"], [ item[0], item[1].length ]));
+          })
+          // .value()
+          .groupBy(function(item) {
+            return item.age, Math.floor(parseInt(item.age) / 10);
+          })
+          .map(function(item) {
+            // console.log(item);
+            var t = 0;
+            _.each(item, function(it) {
+              t += it.qty;
+            });
+            return {
+              age: i + '0 - ' + (i++) + '9 years: ' + t,
+              qty: t
+            };
+          })
+          .value();
+
+      // console.log(result);
+
+      $scope.graphs.data = result;
+
+
     }
   });
