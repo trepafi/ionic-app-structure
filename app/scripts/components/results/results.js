@@ -7,29 +7,68 @@
  * # Main Controller
  */
 angular.module('lubertapp')
-  .controller('ResultsCtrl', function($scope, $ionicModal, artistsSvc) {
+  .controller('ResultsCtrl', function($scope, $ionicModal, $ionicScrollDelegate, artistsSvc) {
     // console.log(artistsSvc.getAll());
-    resetVars();
-    init();
+    var artistsListLimit = 20;
+    var ratingRange = {
+      min: 0,
+      max: 100
+    };
 
-    function resetVars() {
-      $scope.state = 'list';
-      $scope.artists = [];
-      $scope.setState = setState;
-      $scope.showFilter = showFilter;
+    var ageRange = {
+      min: 16,
+      max: 74
+    };
 
-      var ratingRange = {
-        min: 0,
-        max: 100
-      };
+    $scope.ratingRange = ratingRange;
+    $scope.ageRange = ageRange;
+    resetFilters();
 
-      var ageRange = {
-        min: 16,
-        max: 74
-      }
+    $scope.state = 'list';
+    $scope.artists = [];
 
-      $scope.ratingRange = ratingRange;
-      $scope.ageRange = ageRange;
+    $scope.artistsList = [];
+    $scope.noMoreItemsAvailable = false;
+
+    $scope.loadMore = loadMoreItems;
+    $scope.setState = setState;
+    $scope.showFilter = showFilter;
+    $scope.applyFilters = applyFilters;
+    $scope.resetFilters = resetFilters;
+
+
+    artistsSvc.getAll().then(function(response) {
+      $scope.artists = response;
+      resetArtistsList();
+      // console.log($scope.artistsList);
+    });
+
+    $ionicModal.fromTemplateUrl('templates/components/results/filter.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      controller: 'FilterCtrl'
+    }).then(function(modal) {
+      $scope.filterModal = modal;
+    });
+
+
+
+
+
+
+
+
+
+    function setState(state) {
+      $scope.state = state;
+     };
+
+    function showFilter() {
+      $scope.filterModal.show();
+    }
+
+
+    function resetFilters() {
       $scope.filters = {
         gender: {
           male: true,
@@ -44,30 +83,12 @@ angular.module('lubertapp')
           max: ageRange.max
         }
       }
-
-      $scope.applyFilters = applyFilters;
     }
 
-    function init() {
-      artistsSvc.getAll().then(function(response) {
-        $scope.artists = response;
-      });
-
-      $ionicModal.fromTemplateUrl('templates/components/results/filter.html', {
-        scope: $scope,
-        animation: 'slide-in-up',
-        controller: 'FilterCtrl'
-      }).then(function(modal) {
-        $scope.filterModal = modal;
-      });
-    }
-
-    function setState(state) {
-      $scope.state = state;
-     };
-
-    function showFilter() {
-      $scope.filterModal.show();
+    function resetArtistsList() {
+      artistsListLimit = 10;
+      $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
+      $ionicScrollDelegate.scrollTop();
     }
 
     function applyFilters() {
@@ -84,9 +105,18 @@ angular.module('lubertapp')
 
         // console.log(response);
         $scope.artists = response;
+        resetArtistsList();
       });
-
     }
 
+    function loadMoreItems() {
+      artistsListLimit += 10;
+      $scope.artistsList = _.slice($scope.artists, 0, artistsListLimit);
+      console.log('loading more', $scope.artistsList.length);
 
+      if ( $scope.artistsList.length === $scope.artists.length ) {
+        $scope.noMoreItemsAvailable = true;
+      }
+      $scope.$broadcast('scroll.infiniteScrollComplete');
+    }
   });

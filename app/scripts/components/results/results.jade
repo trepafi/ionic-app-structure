@@ -2,26 +2,27 @@ ion-header-bar.bar-positive(align-title="center")
   button.button.button-icon.icon(ng-click="showFilter()") Filter
   a.title Lubert POC
 
-ion-content(scroll="false")  
+ion-content
+  div(ng-if="state === 'list'")
+    ion-list
+      ion-item.item-divider ({{ artists.length }}) artist
+      ion-item(ng-repeat="artist in artistsList") 
+        b {{ $index + 1}}.&nbsp;
+        i.icon.ion-male.male-color(ng-if=" artist.gender === 'M' ")
+        i.icon.ion-female.female-color(ng-if=" artist.gender === 'F' ")
+        span &nbsp;{{ artist.age }} years
+        span &nbsp;{{ artist.rate }} rate
+    
+    ion-infinite-scroll(ng-if="!noMoreItemsAvailable" on-infinite="loadMore()")
 
-  ion-list(ng-if="state === 'list'" scroll="true")
-    ion-item.item-divider ({{ artists.length }}) artist
-    ion-item(ng-repeat="artist in artists") 
-      b {{ $index + 1}}.&nbsp;
-      i.icon.ion-male.male-color(ng-if=" artist.gender === 'M' ")
-      i.icon.ion-female.female-color(ng-if=" artist.gender === 'F' ")
-      span &nbsp;{{ artist.age }} years
-      span &nbsp;{{ artist.rate }} rate
+.height-100.map-container(ng-if="state === 'map'")
+  lt-map
+
+.tabs.tabs-icon-top
+  a.tab-item(ng-click="setState('list')")
+    i.icon.ion-ios-list
+    | List
   
-  div.height-100(scroll="false" ng-if="state === 'map'")
-    lt-map.height-100.has-header
-    
-
-  .tabs.tabs-icon-top
-    a.tab-item(ng-click="setState('list')")
-      i.icon.ion-ios-list
-      | List
-    
-    a.tab-item(ng-click="setState('map')")
-      i.icon.ion-ios-location
-      | Map
+  a.tab-item(ng-click="setState('map')")
+    i.icon.ion-ios-location
+    | Map

@@ -2,6 +2,7 @@ ion-modal-view
   ion-header-bar.bar-positive(align-title="center")
     button.button.button-clear.button-icon.icon.ion-ios-arrow-back(ng-click="filterModal.hide()") &nbsp;Back
     h1.title Filtering
+    button.button.button-icon.icon(ng-click="resetFilters()") Reset
 
   ion-content(has-header="true" padding="true")
     form(name="filterForm" novalidate)
